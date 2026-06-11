@@ -1921,3 +1921,57 @@ select {
     font-size: 32px;
     font-weight: bold;
 }
+
+.card-img {
+    background: #f7f7f7;
+    overflow: hidden;
+}
+
+.product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.pd-img {
+    background: #f7f7f7;
+    overflow: hidden;
+}
+
+.pd-product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.cart-item-img {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--gray-light);
+    flex-shrink: 0;
+}
+
+.ck-img {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--gray-light);
+    flex-shrink: 0;
+}
+
+.cart-thumb,
+.checkout-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.card-emoji {
+    display: none;
+}

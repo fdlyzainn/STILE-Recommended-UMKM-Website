@@ -23,6 +23,9 @@ if ($route === 'products') {
             'reviews'  => (int)$p['total_review'],
             'merchant' => 'UMKM Lokal',
             'color'    => '#F5F5F5',
+
+            // Tambahan untuk gambar produk
+            'image' => 'assets/products/product_' . $p['product_id'] . '.png'
         ];
     }, $rows);
 

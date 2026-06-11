@@ -108,8 +108,8 @@ function buildCard(p) {
 
     return `
   <div class="product-card" onclick="showProduct(${p.id})">
-    <div class="card-img" style="background:${p.color || '#f5f5f5'}">
-      <span class="card-emoji">${emoji[p.sub] || '👕'}</span>
+    <div class="card-img">
+  <img class="product-img" src="${p.image || 'assets/categories/pakaian.svg'}" alt="${p.name}" loading="lazy">
       ${simBadge}
       <button class="wish-btn ${inWish ? 'wished' : ''}" onclick="toggleWishItem(event,${p.id})" title="${inWish ? 'Hapus dari wishlist' : 'Tambah ke wishlist'}">
         ${inWish ? '❤️' : '🤍'}
@@ -245,9 +245,9 @@ function showProduct(id) {
 
     document.getElementById('productDetailContent').innerHTML = `
     <div class="pd-top">
-      <div class="pd-img" style="background:${p.color || '#f5f5f5'}">
-        <span style="font-size:80px">${emoji[p.sub] || '👕'}</span>
-      </div>
+      <div class="pd-img">
+  <img class="pd-product-img" src="${p.image || 'assets/categories/pakaian.svg'}" alt="${p.name}">
+</div>
       <div class="pd-info">
         <p class="pd-merchant">${p.merchant}</p>
         <h1 class="pd-name">${p.name}</h1>
@@ -351,7 +351,9 @@ function renderCart() {
 
   cartItems.innerHTML = state.cart.map(item => `
     <div class="cart-item">
-      <div class="cart-item-img" style="background:${item.color||'#f5f5f5'}">${emoji[item.sub]||'👕'}</div>
+      <div class="cart-item-img">
+  <img src="${item.image || 'assets/categories/pakaian.svg'}" alt="${item.name}" class="cart-thumb">
+</div>
       <div class="cart-item-info">
         <p class="cart-item-name">${item.name}</p>
         <p class="cart-item-merchant">${item.merchant}</p>
@@ -541,7 +543,9 @@ function renderCheckoutSummary() {
       ${state.cart.map(c => `
         <div class="ck-item">
           <div style="display:flex;align-items:center;gap:10px">
-            <div class="ck-img" style="background:${c.color||'#f5f5f5'}">${emoji[c.sub]||'👕'}</div>
+            <div class="ck-img">
+  <img src="${c.image || 'assets/categories/pakaian.svg'}" alt="${c.name}" class="checkout-thumb">
+</div>
             <div>
               <p style="font-size:13px;font-weight:500;margin:0">${c.name}</p>
               <p style="font-size:12px;color:#999;margin:0">x${c.qty}</p>
