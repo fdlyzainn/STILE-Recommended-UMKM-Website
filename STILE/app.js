@@ -4,109 +4,109 @@
 
 // ─── STATE ────────────────────────────────────────────────────────────
 let state = {
-  currentPage: 'home',
-  prevPage: 'home',
-  user: null,
-  cart: [],
-  wishlist: [],
-  orders: [],
-  ratings: {},
-  currentProduct: null,
-  selectedRole: 'buyer',
-  selectedRating: 0,
-  ratingProductId: null,
-  catalogFilter: { cat: 'all', price: 'all', rating: 'all', sort: 'default', search: '' },
+    currentPage: 'home',
+    prevPage: 'home',
+    user: null,
+    cart: [],
+    wishlist: [],
+    orders: [],
+    ratings: {},
+    currentProduct: null,
+    selectedRole: 'buyer',
+    selectedRating: 0,
+    ratingProductId: null,
+    catalogFilter: { cat: 'all', price: 'all', rating: 'all', sort: 'default', search: '' },
 };
 
 // ─── INIT ──────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  renderFeatured();
-  renderTopRated();
-  renderCatalog();
-  updateBadges();
-  // close dropdown on outside click
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.nav-actions')) {
-      document.getElementById('userDropdown').classList.remove('open');
-    }
-  });
+    renderFeatured();
+    renderTopRated();
+    renderCatalog();
+    updateBadges();
+    // close dropdown on outside click
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.nav-actions')) {
+            document.getElementById('userDropdown').classList.remove('open');
+        }
+    });
 });
 
 // ─── PAGE NAVIGATION ───────────────────────────────────────────────────
 function showPage(page) {
-  // guard: cart/checkout/orders need login
-  if (['cart','checkout','orders','profile','merchant','admin'].includes(page) && !state.user) {
-    showToast('Silakan masuk terlebih dahulu');
-    showPage('login');
-    return;
-  }
-  // guard: merchant dashboard only for merchant/admin
-  if (page === 'merchant' && state.user && state.user.role === 'buyer') {
-    showToast('Halaman khusus Penjual');
-    return;
-  }
-  if (page === 'admin' && state.user && state.user.role !== 'admin') {
-    showToast('Halaman khusus Admin');
-    return;
-  }
+    // guard: cart/checkout/orders need login
+    if (['cart', 'checkout', 'orders', 'profile', 'merchant', 'admin'].includes(page) && !state.user) {
+        showToast('Silakan masuk terlebih dahulu');
+        showPage('login');
+        return;
+    }
+    // guard: merchant dashboard only for merchant/admin
+    if (page === 'merchant' && state.user && state.user.role === 'buyer') {
+        showToast('Halaman khusus Penjual');
+        return;
+    }
+    if (page === 'admin' && state.user && state.user.role !== 'admin') {
+        showToast('Halaman khusus Admin');
+        return;
+    }
 
-  state.prevPage = state.currentPage;
-  state.currentPage = page;
+    state.prevPage = state.currentPage;
+    state.currentPage = page;
 
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const el = document.getElementById('page-' + page);
-  if (el) el.classList.add('active');
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const el = document.getElementById('page-' + page);
+    if (el) el.classList.add('active');
 
-  // scroll to top
-  window.scrollTo(0, 0);
+    // scroll to top
+    window.scrollTo(0, 0);
 
-  // page-specific renders
-  if (page === 'catalog') renderCatalog();
-  if (page === 'cart') renderCart();
-  if (page === 'wishlist') renderWishlist();
-  if (page === 'orders') renderOrders();
-  if (page === 'profile') renderProfile();
-  if (page === 'checkout') renderCheckoutSummary();
-  if (page === 'merchant') renderMerchantDash();
-  if (page === 'admin') renderAdminDash();
+    // page-specific renders
+    if (page === 'catalog') renderCatalog();
+    if (page === 'cart') renderCart();
+    if (page === 'wishlist') renderWishlist();
+    if (page === 'orders') renderOrders();
+    if (page === 'profile') renderProfile();
+    if (page === 'checkout') renderCheckoutSummary();
+    if (page === 'merchant') renderMerchantDash();
+    if (page === 'admin') renderAdminDash();
 }
 
 function goBack() {
-  showPage(state.prevPage || 'home');
+    showPage(state.prevPage || 'home');
 }
 
 // ─── NAVIGATION FILTER ─────────────────────────────────────────────────
 function filterByNav(cat, el) {
-  document.querySelectorAll('.nav-cat').forEach(a => a.classList.remove('active'));
-  if (el) el.classList.add('active');
-  state.catalogFilter.cat = cat;
-  // sync sidebar radio
-  const radios = document.querySelectorAll('input[name="catF"]');
-  radios.forEach(r => { if (r.value === cat) r.checked = true; });
-  showPage('catalog');
+    document.querySelectorAll('.nav-cat').forEach(a => a.classList.remove('active'));
+    if (el) el.classList.add('active');
+    state.catalogFilter.cat = cat;
+    // sync sidebar radio
+    const radios = document.querySelectorAll('input[name="catF"]');
+    radios.forEach(r => { if (r.value === cat) r.checked = true; });
+    showPage('catalog');
 }
 
 // ─── PRODUCT CARD BUILDER ──────────────────────────────────────────────
 function formatRp(n) {
-  return 'Rp' + n.toLocaleString('id-ID');
+    return 'Rp' + n.toLocaleString('id-ID');
 }
 
 function renderStars(rating) {
-  const full = Math.floor(rating);
-  const half = rating - full >= 0.5 ? 1 : 0;
-  let s = '';
-  for (let i = 0; i < full; i++) s += '<span class="s-fill">★</span>';
-  if (half) s += '<span class="s-half">★</span>';
-  for (let i = full + half; i < 5; i++) s += '<span class="s-empty">★</span>';
-  return s;
+    const full = Math.floor(rating);
+    const half = rating - full >= 0.5 ? 1 : 0;
+    let s = '';
+    for (let i = 0; i < full; i++) s += '<span class="s-fill">★</span>';
+    if (half) s += '<span class="s-half">★</span>';
+    for (let i = full + half; i < 5; i++) s += '<span class="s-empty">★</span>';
+    return s;
 }
 
 function buildCard(p) {
-  const inWish = state.wishlist.some(w => w.id === p.id);
-  const emoji = { Pakaian:'👗', 'Baju Muslim':'🧕', Sepatu:'👟', Tas:'👜', Sports:'🏃', Beauty:'💄', Kids:'🧒', Batik:'🪆', 'Jam dan Aksesoris':'⌚' };
-  const simBadge = p.similarity ? `<span class="sim-badge">${(p.similarity * 100).toFixed(0)}% match</span>` : '';
+    const inWish = state.wishlist.some(w => w.id === p.id);
+    const emoji = { Pakaian: '👗', 'Baju Muslim': '🧕', Sepatu: '👟', Tas: '👜', Sports: '🏃', Beauty: '💄', Kids: '🧒', Batik: '🪆', 'Jam dan Aksesoris': '⌚' };
+    const simBadge = p.similarity ? `<span class="sim-badge">${(p.similarity * 100).toFixed(0)}% match</span>` : '';
 
-  return `
+    return `
   <div class="product-card" onclick="showProduct(${p.id})">
     <div class="card-img" style="background:${p.color || '#f5f5f5'}">
       <span class="card-emoji">${emoji[p.sub] || '👕'}</span>
@@ -128,122 +128,122 @@ function buildCard(p) {
 
 // ─── HOME RENDERS ──────────────────────────────────────────────────────
 function renderFeatured() {
-  const featured = [...PRODUCTS].sort((a,b) => b.sold - a.sold).slice(0, 8);
-  document.getElementById('featuredGrid').innerHTML = featured.map(buildCard).join('');
+    const featured = [...PRODUCTS].sort((a, b) => b.sold - a.sold).slice(0, 8);
+    document.getElementById('featuredGrid').innerHTML = featured.map(buildCard).join('');
 }
 
 function renderTopRated() {
-  const top = [...PRODUCTS].sort((a,b) => b.rating - a.rating || b.reviews - a.reviews).slice(0, 4);
-  document.getElementById('topRatedGrid').innerHTML = top.map(buildCard).join('');
+    const top = [...PRODUCTS].sort((a, b) => b.rating - a.rating || b.reviews - a.reviews).slice(0, 4);
+    document.getElementById('topRatedGrid').innerHTML = top.map(buildCard).join('');
 }
 
 // ─── CATALOG ───────────────────────────────────────────────────────────
 function applyFilters() {
-  const catRadio = document.querySelector('input[name="catF"]:checked');
-  const priceRadio = document.querySelector('input[name="priceF"]:checked');
-  const ratingRadio = document.querySelector('input[name="ratingF"]:checked');
-  const sort = document.getElementById('sortSelect').value;
+    const catRadio = document.querySelector('input[name="catF"]:checked');
+    const priceRadio = document.querySelector('input[name="priceF"]:checked');
+    const ratingRadio = document.querySelector('input[name="ratingF"]:checked');
+    const sort = document.getElementById('sortSelect').value;
 
-  state.catalogFilter.cat = catRadio ? catRadio.value : 'all';
-  state.catalogFilter.price = priceRadio ? priceRadio.value : 'all';
-  state.catalogFilter.rating = ratingRadio ? ratingRadio.value : 'all';
-  state.catalogFilter.sort = sort;
-  renderCatalog();
+    state.catalogFilter.cat = catRadio ? catRadio.value : 'all';
+    state.catalogFilter.price = priceRadio ? priceRadio.value : 'all';
+    state.catalogFilter.rating = ratingRadio ? ratingRadio.value : 'all';
+    state.catalogFilter.sort = sort;
+    renderCatalog();
 }
 
 function renderCatalog() {
-  let products = [...PRODUCTS];
-  const f = state.catalogFilter;
+    let products = [...PRODUCTS];
+    const f = state.catalogFilter;
 
-  // search
-  if (f.search && f.search.length > 0) {
-    const q = f.search.toLowerCase();
-    products = products.filter(p =>
-      p.name.toLowerCase().includes(q) ||
-      p.sub.toLowerCase().includes(q) ||
-      p.detail.toLowerCase().includes(q) ||
-      p.merchant.toLowerCase().includes(q)
-    );
-  }
+    // search
+    if (f.search && f.search.length > 0) {
+        const q = f.search.toLowerCase();
+        products = products.filter(p =>
+            p.name.toLowerCase().includes(q) ||
+            p.sub.toLowerCase().includes(q) ||
+            p.detail.toLowerCase().includes(q) ||
+            p.merchant.toLowerCase().includes(q)
+        );
+    }
 
-  // category
-  if (f.cat && f.cat !== 'all') {
-    products = products.filter(p => p.sub === f.cat);
-  }
+    // category
+    if (f.cat && f.cat !== 'all') {
+        products = products.filter(p => p.sub === f.cat);
+    }
 
-  // price
-  if (f.price && f.price !== 'all') {
-    const [min, max] = f.price.split('-').map(Number);
-    products = products.filter(p => p.price >= min && p.price <= max);
-  }
+    // price
+    if (f.price && f.price !== 'all') {
+        const [min, max] = f.price.split('-').map(Number);
+        products = products.filter(p => p.price >= min && p.price <= max);
+    }
 
-  // rating
-  if (f.rating && f.rating !== 'all') {
-    const minR = parseFloat(f.rating);
-    products = products.filter(p => p.rating >= minR);
-  }
+    // rating
+    if (f.rating && f.rating !== 'all') {
+        const minR = parseFloat(f.rating);
+        products = products.filter(p => p.rating >= minR);
+    }
 
-  // sort
-  if (f.sort === 'price-asc') products.sort((a,b) => a.price - b.price);
-  else if (f.sort === 'price-desc') products.sort((a,b) => b.price - a.price);
-  else if (f.sort === 'rating') products.sort((a,b) => b.rating - a.rating);
-  else if (f.sort === 'sold') products.sort((a,b) => b.sold - a.sold);
+    // sort
+    if (f.sort === 'price-asc') products.sort((a, b) => a.price - b.price);
+    else if (f.sort === 'price-desc') products.sort((a, b) => b.price - a.price);
+    else if (f.sort === 'rating') products.sort((a, b) => b.rating - a.rating);
+    else if (f.sort === 'sold') products.sort((a, b) => b.sold - a.sold);
 
-  const grid = document.getElementById('catalogGrid');
-  const empty = document.getElementById('catalogEmpty');
-  const count = document.getElementById('catalogCount');
+    const grid = document.getElementById('catalogGrid');
+    const empty = document.getElementById('catalogEmpty');
+    const count = document.getElementById('catalogCount');
 
-  if (products.length === 0) {
-    grid.innerHTML = '';
-    empty.style.display = 'block';
-    count.textContent = '0 produk ditemukan';
-  } else {
-    empty.style.display = 'none';
-    grid.innerHTML = products.map(buildCard).join('');
-    const label = f.cat && f.cat !== 'all' ? f.cat : 'semua kategori';
-    count.textContent = `${products.length} produk ditemukan di ${label}`;
-  }
+    if (products.length === 0) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+        count.textContent = '0 produk ditemukan';
+    } else {
+        empty.style.display = 'none';
+        grid.innerHTML = products.map(buildCard).join('');
+        const label = f.cat && f.cat !== 'all' ? f.cat : 'semua kategori';
+        count.textContent = `${products.length} produk ditemukan di ${label}`;
+    }
 }
 
 function resetFilters() {
-  document.querySelectorAll('input[name="catF"]')[0].checked = true;
-  document.querySelectorAll('input[name="priceF"]')[0].checked = true;
-  document.querySelectorAll('input[name="ratingF"]')[0].checked = true;
-  document.getElementById('sortSelect').value = 'default';
-  document.getElementById('searchInput').value = '';
-  state.catalogFilter = { cat: 'all', price: 'all', rating: 'all', sort: 'default', search: '' };
-  renderCatalog();
+    document.querySelectorAll('input[name="catF"]')[0].checked = true;
+    document.querySelectorAll('input[name="priceF"]')[0].checked = true;
+    document.querySelectorAll('input[name="ratingF"]')[0].checked = true;
+    document.getElementById('sortSelect').value = 'default';
+    document.getElementById('searchInput').value = '';
+    state.catalogFilter = { cat: 'all', price: 'all', rating: 'all', sort: 'default', search: '' };
+    renderCatalog();
 }
 
 function toggleFilter(id) {
-  const el = document.getElementById(id);
-  el.classList.toggle('open');
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
 }
 
 // ─── SEARCH ────────────────────────────────────────────────────────────
 function liveSearch() {
-  const q = document.getElementById('searchInput').value;
-  state.catalogFilter.search = q;
-  if (state.currentPage !== 'catalog') showPage('catalog');
-  else renderCatalog();
+    const q = document.getElementById('searchInput').value;
+    state.catalogFilter.search = q;
+    if (state.currentPage !== 'catalog') showPage('catalog');
+    else renderCatalog();
 }
 
 function doSearch() {
-  liveSearch();
+    liveSearch();
 }
 
 // ─── PRODUCT DETAIL ────────────────────────────────────────────────────
 function showProduct(id) {
-  const p = PRODUCTS.find(x => x.id === id);
-  if (!p) return;
-  state.currentProduct = p;
-  state.prevPage = state.currentPage;
+    const p = PRODUCTS.find(x => x.id === id);
+    if (!p) return;
+    state.currentProduct = p;
+    state.prevPage = state.currentPage;
 
-  const recs = getRecommendations(id, 6);
-  const emoji = { Pakaian:'👗', 'Baju Muslim':'🧕', Sepatu:'👟', Tas:'👜', Sports:'🏃', Beauty:'💄', Kids:'🧒', Batik:'🪆', 'Jam dan Aksesoris':'⌚' };
-  const userRating = state.ratings[id];
+    const recs = getRecommendations(id, 6);
+    const emoji = { Pakaian: '👗', 'Baju Muslim': '🧕', Sepatu: '👟', Tas: '👜', Sports: '🏃', Beauty: '💄', Kids: '🧒', Batik: '🪆', 'Jam dan Aksesoris': '⌚' };
+    const userRating = state.ratings[id];
 
-  document.getElementById('productDetailContent').innerHTML = `
+    document.getElementById('productDetailContent').innerHTML = `
     <div class="pd-top">
       <div class="pd-img" style="background:${p.color || '#f5f5f5'}">
         <span style="font-size:80px">${emoji[p.sub] || '👕'}</span>
