@@ -428,11 +428,20 @@ function toggleUserMenu() {
 function demoLogin(role) {
   const user = USERS_DEMO[role];
   state.user = { ...user };
+
   applyUserUI();
-  showToast(`Masuk sebagai ${user.name} ✓`);
-  if (role === 'merchant') showPage('merchant');
-  else if (role === 'admin') showPage('admin');
-  else showPage('home');
+
+  if (role === 'merchant') {
+      showPage('sellerDashboard');
+      return;
+  }
+
+  if (role === 'admin') {
+      showPage('admin');
+      return;
+  }
+
+  showPage('home');
 }
 
 function doLogin() {
@@ -466,7 +475,9 @@ function doRegister() {
   if (state.selectedRole === 'merchant') state.user.store = document.getElementById('regStore').value || 'Toko ' + name;
   applyUserUI();
   showToast('Akun berhasil dibuat! Selamat datang 🎉');
-  showPage(state.selectedRole === 'merchant' ? 'merchant' : 'home');
+  showPage(state.selectedRole === 'merchant'
+    ? 'sellerDashboard'
+    : 'home');
 }
 
 function selectRole(role, el) {
@@ -712,4 +723,14 @@ function showToast(msg) {
   t.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function showSellerSection(section){
+
+    document.getElementById('seller-dashboard').style.display='none';
+    document.getElementById('seller-orders').style.display='none';
+    document.getElementById('seller-products').style.display='none';
+    document.getElementById('seller-reviews').style.display='none';
+
+    document.getElementById('seller-' + section).style.display='block';
 }

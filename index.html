@@ -528,6 +528,69 @@
         </div>
     </footer>
 
+    <div id="page-sellerDashboard" class="page">
+
+        <div class="seller-wrapper">
+
+            <aside class="seller-sidebar">
+                <h2>STILÉ</h2>
+
+                <ul>
+                    <li onclick="showSellerSection('dashboard')">Dashboard</li>
+                    <li onclick="showSellerSection('orders')">Pesanan</li>
+                    <li onclick="showSellerSection('products')">Tambah Produk</li>
+                    <li onclick="showSellerSection('reviews')">Rating & Ulasan</li>
+                </ul>
+            </aside>
+
+            <main class="seller-content">
+
+                <div id="seller-dashboard">
+                    <h2>Dashboard Toko</h2>
+
+                    <div class="seller-cards">
+
+                        <div class="seller-card">
+                            <h3>Total Pesanan</h3>
+                            <span>2</span>
+                        </div>
+
+                        <div class="seller-card">
+                            <h3>Total Pendapatan</h3>
+                            <span>Rp 0</span>
+                        </div>
+
+                        <div class="seller-card">
+                            <h3>Produk Aktif</h3>
+                            <span>0</span>
+                        </div>
+
+                        <div class="seller-card">
+                            <h3>Rating Toko</h3>
+                            <span>4.3</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="seller-orders" style="display:none">
+                    <h2>Manajemen Pesanan</h2>
+                </div>
+
+                <div id="seller-products" style="display:none">
+                    <h2>Tambah Produk</h2>
+                </div>
+
+                <div id="seller-reviews" style="display:none">
+                    <h2>Rating & Ulasan</h2>
+                </div>
+
+            </main>
+
+        </div>
+
+    </div>
+
     <script src="data.js"></script>
     <script src="app.js"></script>
 </body>

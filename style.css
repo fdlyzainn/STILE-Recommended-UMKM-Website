@@ -1,4 +1,6 @@
 /* FashModa – Liceria & Co. Color Theme */
+
+
 /* Palette from reference: dark navy, warm brown, cream, off-white */
 
 *,
@@ -11,19 +13,28 @@
 
 :root {
     /* ── Liceria & Co. Palette ── */
-    --black: #1E2D3D;          /* deep navy (was #111111) */
-    --charcoal: #2B3E50;       /* navy charcoal (was #222222) */
-    --gray-dark: #3D5166;      /* muted navy (was #444444) */
-    --gray-mid: #7A8C9A;       /* cool gray-blue (was #888888) */
-    --gray-light: #EDE8D5;     /* warm cream (was #f4f4f4) */
-    --gray-border: #D8D2BC;    /* cream border (was #e8e8e8) */
-    --white: #F7F4EC;          /* off-white/cream body (was #ffffff) */
+    --black: #1E2D3D;
+    /* deep navy (was #111111) */
+    --charcoal: #2B3E50;
+    /* navy charcoal (was #222222) */
+    --gray-dark: #3D5166;
+    /* muted navy (was #444444) */
+    --gray-mid: #7A8C9A;
+    /* cool gray-blue (was #888888) */
+    --gray-light: #EDE8D5;
+    /* warm cream (was #f4f4f4) */
+    --gray-border: #D8D2BC;
+    /* cream border (was #e8e8e8) */
+    --white: #F7F4EC;
+    /* off-white/cream body (was #ffffff) */
     --pure-white: #FFFFFF;
-    --accent: #A67C52;         /* warm tan/brown — NEW signature accent */
-    --red: #C0392B;            /* muted red */
+    --accent: #A67C52;
+    /* warm tan/brown — NEW signature accent */
+    --red: #C0392B;
+    /* muted red */
     --green: #2E7D32;
-    --gold: #A67C52;           /* reuse accent for gold */
-
+    --gold: #A67C52;
+    /* reuse accent for gold */
     /* unchanged structural tokens */
     --radius-sm: 4px;
     --radius-md: 8px;
@@ -281,12 +292,7 @@ select {
     justify-content: space-between;
     gap: 40px;
     min-height: 400px;
-    background: linear-gradient(
-        to right,
-        rgba(247, 244, 236, 0.97) 0%,
-        rgba(247, 244, 236, 0.88) 40%,
-        rgba(247, 244, 236, 0.30) 100%
-    ), url('images/hero-fashion.png');
+    background: linear-gradient( to right, rgba(247, 244, 236, 0.97) 0%, rgba(247, 244, 236, 0.88) 40%, rgba(247, 244, 236, 0.30) 100%), url('images/hero-fashion.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1863,4 +1869,55 @@ select {
     .rec-banner-tags {
         display: none;
     }
+}
+
+.seller-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.seller-sidebar {
+    width: 260px;
+    background: #f5f1e8;
+    padding: 30px;
+    border-right: 1px solid #ddd;
+}
+
+.seller-sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.seller-sidebar li {
+    padding: 15px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.seller-sidebar li:hover {
+    background: #ece4d8;
+}
+
+.seller-content {
+    flex: 1;
+    padding: 40px;
+}
+
+.seller-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.seller-card {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.seller-card span {
+    font-size: 32px;
+    font-weight: bold;
 }
