@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STILÉ – Belanja Fashion UMKM Lokal</title>
+    <link rel="stylesheet" href="style.css?v=admin-fix-2">
+</head>
+
+<body>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast"></div>
+
+    <!-- TOP PROMO STRIP -->
+    <div class="promo-strip">
+        <span>🎁 Gratis Ongkir untuk order pertama kamu!</span>
+        <span class="promo-sep">|</span>
+        <span>COD Tersedia</span>
+        <span class="promo-sep">|</span>
+        <span>Garansi 30 Hari</span>
+    </div>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="nav-inner">
+            <a href="#" class="brand" onclick="showPage('home')">STILÉ</a>
+
+            <nav class="nav-cats">
+                <a href="#" class="nav-cat active" data-cat="all" onclick="filterByNav('all',this)">Semua</a>
+                <a href="#" class="nav-cat" data-cat="Pakaian" onclick="filterByNav('Pakaian',this)">Pakaian</a>
+                <a href="#" class="nav-cat" data-cat="Baju Muslim" onclick="filterByNav('Baju Muslim',this)">Muslim</a>
+                <a href="#" class="nav-cat" data-cat="Sepatu" onclick="filterByNav('Sepatu',this)">Sepatu</a>
+                <a href="#" class="nav-cat" data-cat="Tas" onclick="filterByNav('Tas',this)">Tas</a>
+                <a href="#" class="nav-cat" data-cat="Sports" onclick="filterByNav('Sports',this)">Sports</a>
+                <a href="#" class="nav-cat" data-cat="Beauty" onclick="filterByNav('Beauty',this)">Beauty</a>
+                <a href="#" class="nav-cat" data-cat="Kids" onclick="filterByNav('Kids',this)">Anak</a>
+            </nav>
+
+            <div class="nav-actions">
+                <div class="search-wrap">
+                    <input type="text" id="searchInput" placeholder="Cari produk fashion..." onkeyup="liveSearch()" />
+                    <button class="search-btn" onclick="doSearch()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+                </div>
+                <button class="icon-btn" onclick="toggleWishlist()" title="Wishlist">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="badge" id="wishBadge">0</span>
+      </button>
+                <button class="icon-btn" onclick="showCart()" title="Keranjang">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="badge" id="cartBadge">0</span>
+      </button>
+                <button class="icon-btn" id="userBtn" onclick="toggleUserMenu()" title="Akun">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+                <div class="user-dropdown" id="userDropdown">
+                    <div id="userMenuGuest">
+                        <a href="#" onclick="showPage('login')">Masuk</a>
+                        <a href="#" onclick="showPage('register')">Daftar</a>
+                    </div>
+                    <div id="userMenuLoggedIn" style="display:none">
+                        <span id="userGreeting" style="font-size:13px;color:#999;padding:8px 16px;display:block;border-bottom:1px solid #f0f0f0"></span>
+                        <a href="#" onclick="showPage('profile')">Profil Saya</a>
+                        <a href="#" onclick="showPage('orders')">Riwayat Pesanan</a>
+                        <a href="#" onclick="doLogout()" style="color:#e53935">Keluar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ======= PAGES ======= -->
+
+    <!-- HOME PAGE -->
+    <div id="page-home" class="page active">
+        <!-- Hero Banner -->
+        <section class="hero">
+            <div class="hero-content">
+                <p class="hero-eyebrow">KOLEKSI TERBARU 2026</p>
+                <h1 class="hero-title">Fashion UMKM<br>Lokal Pilihan</h1>
+                <p class="hero-sub">Temukan ribuan produk fashion terbaik dari pengrajin & penjual UMKM Indonesia</p>
+                <div class="hero-btns">
+                    <button class="btn-primary" onclick="filterByNav('all',null)">Belanja Sekarang</button>
+                    <button class="btn-outline" onclick="filterByNav('Baju Muslim',null)">Koleksi Muslim</button>
+                </div>
+            </div>
+            <div class="hero-visual">
+
+                <div class="hero-badges">
+                    <div class="hbadge">✓ Original</div>
+                    <div class="hbadge">✓ COD</div>
+                    <div class="hbadge">✓ Garandsi</div>
+                </div>
+
+                <div class="hero-stat-row">
+                    <div class="hstat">
+                        <span class="hstat-num">1.1K+</span>
+                        <span class="hstat-lbl">Produk</span>
+                    </div>
+                    <div class="hstat">
+                        <span class="hstat-num">200+</span>
+                        <span class="hstat-lbl">UMKM</span>
+                    </div>
+                    <div class="hstat">
+                        <span class="hstat-num">4.8★</span>
+                        <span class="hstat-lbl">Rating</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Grid -->
+        <section class="section">
+            <h2 class="section-title">Belanja per Kategori</h2>
+            <div class="cat-grid">
+                <a class="cat-tile" onclick="filterByNav('Pakaian',null)">
+                    <div class="cat-icon">👗</div><span>Pakaian</span>
+                </a>
+                <a class="cat-tile" onclick="filterByNav('Baju Muslim',null)">
+                    <div class="cat-icon">🧕</div><span>Muslim</span>
+                </a>
+                <a class="cat-tile" onclick="filterByNav('Sepatu',null)">
+                    <div class="cat-icon">👟</div><span>Sepatu</span>
+                </a>
+                <a class="cat-tile" onclick="filterByNav('Tas',null)">
+                    <div class="cat-icon">👜</div><span>Tas</span>
+                </a>
+                <a class="cat-tile" onclick="filterByNav('Sports',null)">
+                    <div class="cat-icon">🏃</div><span>Sports</span>
+                </a>
+                <a class="cat-tile" onclick="filterByNav('Beauty',null)">
+                    <div class="cat-icon">💄</div><span>Beauty</span>
+                </a>
+                <a class="cat-tile" onclick="filterByNav('Kids',null)">
+                    <div class="cat-icon">🧒</div><span>Anak</span>
+                </a>
+                <a class="cat-tile" onclick="filterByNav('Jam dan Aksesoris',null)">
+                    <div class="cat-icon">⌚</div><span>Aksesoris</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Featured Products -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Produk Unggulan</h2>
+                <a href="#" class="see-all" onclick="showPage('catalog')">Lihat Semua →</a>
+            </div>
+            <div class="products-grid" id="featuredGrid"></div>
+        </section>
+
+        <!-- Recommendation Banner -->
+        <section class="rec-banner">
+            <div class="rec-banner-inner">
+                <div>
+                    <h3>Rekomendasi Untukmu</h3>
+                    <p>Sistem kami menggunakan Content-Based Filtering (TF-IDF + Cosine Similarity) untuk menyarankan produk yang paling relevan dengan preferensimu.</p>
+                    <button class="btn-primary" onclick="showPage('catalog')">Lihat Rekomendasi</button>
+                </div>
+                <div class="rec-banner-tags">
+                    <span>Hijab</span><span>Sneakers</span><span>Hoodie</span><span>Skincare</span><span>Batik</span><span>Jersey</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Top Rated -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Rating Tertinggi</h2>
+            </div>
+            <div class="products-grid" id="topRatedGrid"></div>
+        </section>
+    </div>
+
+    <!-- CATALOG PAGE -->
+    <div id="page-catalog" class="page">
+        <div class="catalog-layout">
+            <!-- Sidebar Filters -->
+            <aside class="sidebar">
+                <h3 class="sidebar-title">Filter</h3>
+
+                <div class="filter-group">
+                    <div class="filter-label" onclick="toggleFilter('catFilter')">Kategori <span>▾</span></div>
+                    <div class="filter-body open" id="catFilter">
+                        <label><input type="radio" name="catF" value="all" checked onchange="applyFilters()"> Semua</label>
+                        <label><input type="radio" name="catF" value="Pakaian" onchange="applyFilters()"> Pakaian</label>
+                        <label><input type="radio" name="catF" value="Baju Muslim" onchange="applyFilters()"> Baju Muslim</label>
+                        <label><input type="radio" name="catF" value="Sepatu" onchange="applyFilters()"> Sepatu</label>
+                        <label><input type="radio" name="catF" value="Tas" onchange="applyFilters()"> Tas</label>
+                        <label><input type="radio" name="catF" value="Sports" onchange="applyFilters()"> Sports</label>
+                        <label><input type="radio" name="catF" value="Beauty" onchange="applyFilters()"> Beauty</label>
+                        <label><input type="radio" name="catF" value="Kids" onchange="applyFilters()"> Kids</label>
+                        <label><input type="radio" name="catF" value="Batik" onchange="applyFilters()"> Batik</label>
+                        <label><input type="radio" name="catF" value="Jam dan Aksesoris" onchange="applyFilters()"> Aksesoris</label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-label" onclick="toggleFilter('priceFilter')">Rentang Harga <span>▾</span></div>
+                    <div class="filter-body open" id="priceFilter">
+                        <label><input type="radio" name="priceF" value="all" checked onchange="applyFilters()"> Semua Harga</label>
+                        <label><input type="radio" name="priceF" value="0-50000" onchange="applyFilters()"> di bawah Rp50.000</label>
+                        <label><input type="radio" name="priceF" value="50000-150000" onchange="applyFilters()"> Rp50.000 – 150.000</label>
+                        <label><input type="radio" name="priceF" value="150000-300000" onchange="applyFilters()"> Rp150.000 – 300.000</label>
+                        <label><input type="radio" name="priceF" value="300000-999999999" onchange="applyFilters()"> di atas Rp300.000</label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-label" onclick="toggleFilter('ratingFilter')">Rating <span>▾</span></div>
+                    <div class="filter-body open" id="ratingFilter">
+                        <label><input type="radio" name="ratingF" value="all" checked onchange="applyFilters()"> Semua</label>
+                        <label><input type="radio" name="ratingF" value="4.5" onchange="applyFilters()"> ★ 4.5 ke atas</label>
+                        <label><input type="radio" name="ratingF" value="4" onchange="applyFilters()"> ★ 4.0 ke atas</label>
+                        <label><input type="radio" name="ratingF" value="3" onchange="applyFilters()"> ★ 3.0 ke atas</label>
+                    </div>
+                </div>
+
+                <button class="btn-reset" onclick="resetFilters()">Reset Filter</button>
+            </aside>
+
+            <!-- Catalog Main -->
+            <main class="catalog-main">
+                <div class="catalog-header">
+                    <p id="catalogCount" class="result-count">Menampilkan semua produk</p>
+                    <div class="sort-wrap">
+                        <label>Urutkan:</label>
+                        <select id="sortSelect" onchange="applyFilters()">
+            <option value="default">Relevansi</option>
+            <option value="price-asc">Harga: Terendah</option>
+            <option value="price-desc">Harga: Tertinggi</option>
+            <option value="rating">Rating Tertinggi</option>
+            <option value="sold">Terlaris</option>
+          </select>
+                    </div>
+                </div>
+                <div class="products-grid" id="catalogGrid"></div>
+                <div id="catalogEmpty" class="empty-state" style="display:none">
+                    <div style="font-size:48px">🔍</div>
+                    <p>Produk tidak ditemukan</p>
+                    <button class="btn-outline" onclick="resetFilters()">Reset Filter</button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- PRODUCT DETAIL PAGE -->
+    <div id="page-product" class="page">
+        <div class="product-detail-wrap">
+            <button class="back-btn" onclick="goBack()">← Kembali</button>
+            <div class="product-detail" id="productDetailContent"></div>
+        </div>
+    </div>
+
+    <!-- CART PAGE -->
+    <div id="page-cart" class="page">
+        <div class="page-wrap">
+            <h2 class="page-title">Keranjang Belanja</h2>
+            <div class="cart-layout">
+                <div class="cart-items" id="cartItems"></div>
+                <div class="cart-summary" id="cartSummary"></div>
+            </div>
+            <div id="cartEmpty" class="empty-state" style="display:none">
+                <div style="font-size:48px">🛒</div>
+                <p>Keranjangmu masih kosong</p>
+                <button class="btn-primary" onclick="showPage('catalog')">Mulai Belanja</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WISHLIST PAGE -->
+    <div id="page-wishlist" class="page">
+        <div class="page-wrap">
+            <h2 class="page-title">Wishlist</h2>
+            <div class="products-grid" id="wishlistGrid"></div>
+            <div id="wishlistEmpty" class="empty-state" style="display:none">
+                <div style="font-size:48px">🤍</div>
+                <p>Belum ada produk di wishlist</p>
+                <button class="btn-primary" onclick="showPage('catalog')">Jelajahi Produk</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN PAGE -->
+    <div id="page-login" class="page">
+        <div class="auth-wrap">
+            <div class="auth-card">
+                <h2>Masuk ke STILÉ</h2>
+                <p class="auth-sub">Belum punya akun? <a href="#" onclick="showPage('register')">Daftar sekarang</a></p>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" placeholder="emailkamu@contoh.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPass" placeholder="Password kamu">
+                </div>
+                <button class="btn-primary full" onclick="doLogin()">Masuk</button>
+                <div class="auth-divider">atau</div>
+                <button class="btn-outline full" onclick="demoLogin('buyer')">Demo sebagai Pembeli</button>
+                <button class="btn-outline full" onclick="demoLogin('merchant')">Demo sebagai Penjual</button>
+                <button class="btn-outline full" onclick="demoLogin('admin')">Demo sebagai Admin</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- REGISTER PAGE -->
+    <div id="page-register" class="page">
+        <div class="auth-wrap">
+            <div class="auth-card">
+                <h2>Buat Akun STILÉ</h2>
+                <p class="auth-sub">Sudah punya akun? <a href="#" onclick="showPage('login')">Masuk</a></p>
+                <div class="role-tabs">
+                    <button class="role-tab active" onclick="selectRole('buyer',this)">Pembeli</button>
+                    <button class="role-tab" onclick="selectRole('merchant',this)">Penjual UMKM</button>
+                </div>
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="regName" placeholder="Nama kamu">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="regEmail" placeholder="emailkamu@contoh.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="regPass" placeholder="Minimal 8 karakter">
+                </div>
+                <div class="form-group merchant-only" style="display:none">
+                    <label>Nama Toko</label>
+                    <input type="text" id="regStore" placeholder="Nama toko UMKM-mu">
+                </div>
+                <button class="btn-primary full" onclick="doRegister()">Daftar Sekarang</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROFILE PAGE -->
+    <div id="page-profile" class="page">
+        <div class="page-wrap">
+            <h2 class="page-title">Profil Saya</h2>
+            <div class="profile-card" id="profileContent"></div>
+        </div>
+    </div>
+
+    <!-- ORDERS PAGE -->
+    <div id="page-orders" class="page">
+        <div class="page-wrap">
+            <h2 class="page-title">Riwayat Pesanan</h2>
+            <div id="ordersContent"></div>
+            <div id="ordersEmpty" class="empty-state">
+                <div style="font-size:48px">📦</div>
+                <p>Belum ada pesanan</p>
+                <button class="btn-primary" onclick="showPage('catalog')">Mulai Belanja</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHECKOUT PAGE -->
+    <div id="page-checkout" class="page">
+        <div class="page-wrap">
+            <h2 class="page-title">Checkout</h2>
+            <div class="checkout-layout">
+                <div class="checkout-form">
+                    <h3>Alamat Pengiriman</h3>
+                    <div class="form-group">
+                        <label>Nama Penerima</label>
+                        <input type="text" id="ckName" placeholder="Nama lengkap">
+                    </div>
+                    <div class="form-group">
+                        <label>No. HP</label>
+                        <input type="text" id="ckPhone" placeholder="08xx-xxxx-xxxx">
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat Lengkap</label>
+                        <textarea id="ckAddress" rows="3" placeholder="Jl. ... No. ... RT/RW ... Kelurahan ... Kecamatan ..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Kota</label>
+                        <input type="text" id="ckCity" placeholder="Kota / Kabupaten">
+                    </div>
+                    <h3 style="margin-top:24px">Metode Pembayaran</h3>
+                    <div class="payment-opts">
+                        <label class="pay-opt"><input type="radio" name="payment" value="transfer" checked onchange="updatePaymentDetails()"> Transfer Bank</label>
+                        <label class="pay-opt"><input type="radio" name="payment" value="cod" onchange="updatePaymentDetails()"> COD</label>
+                        <label class="pay-opt"><input type="radio" name="payment" value="ewallet" onchange="updatePaymentDetails()"> E-Wallet</label>
+                    </div>
+                    <div id="paymentDetailBox" class="payment-detail-box"></div>
+                    <button class="btn-primary full" style="margin-top:24px" onclick="confirmOrder()">Konfirmasi Pesanan</button>
+                </div>
+                <div class="checkout-summary" id="checkoutSummary"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MERCHANT DASHBOARD -->
+    <div id="page-merchant" class="page">
+        <div class="page-wrap">
+            <h2 class="page-title">Dashboard Penjual</h2>
+            <div class="dash-stats" id="merchantStats"></div>
+            <div style="margin-top:32px">
+                <div class="section-header">
+                    <h3>Produk Saya</h3>
+                    <button class="btn-primary" onclick="showAddProduct()">+ Tambah Produk</button>
+                </div>
+                <div id="merchantProducts"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD -->
+    <div id="page-admin" class="page">
+        <div class="page-wrap admin-wrap">
+            <div class="admin-head">
+                <div>
+                    <p class="admin-eyebrow">PANEL ADMIN</p>
+                    <h2 class="page-title">Dashboard Admin</h2>
+                    <p class="admin-subtitle">Kelola data toko UMKM dan pengguna langsung dari halaman admin.</p>
+                </div>
+                <div class="admin-tabs">
+                    <button class="admin-tab active" type="button" data-section="stores" onclick="showAdminSection('stores')">Kelola Toko</button>
+                    <button class="admin-tab" type="button" data-section="users" onclick="showAdminSection('users')">Kelola Pengguna</button>
+                </div>
+            </div>
+
+            <div class="dash-stats" id="adminStats"></div>
+
+            <section id="admin-section-stores" class="admin-section">
+                <div class="admin-panel">
+                    <div class="admin-section-title">
+                        <div>
+                            <h3>Kelola Toko</h3>
+                            <p>Tambah toko, edit data toko, aktif/nonaktifkan, atau hapus toko.</p>
+                        </div>
+                    </div>
+
+                    <form class="admin-form" onsubmit="saveAdminStore(event)">
+                        <input type="hidden" id="adminStoreId">
+                        <div class="form-group">
+                            <label>Nama Toko</label>
+                            <input type="text" id="adminStoreName" placeholder="Contoh: Hijab Nusantara" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Pemilik</label>
+                            <input type="text" id="adminStoreOwner" placeholder="Nama pemilik toko" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Kategori Utama</label>
+                            <select id="adminStoreCategory">
+                                <option value="Pakaian">Pakaian</option>
+                                <option value="Baju Muslim">Baju Muslim</option>
+                                <option value="Sepatu">Sepatu</option>
+                                <option value="Tas">Tas</option>
+                                <option value="Sports">Sports</option>
+                                <option value="Beauty">Beauty</option>
+                                <option value="Kids">Anak</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Penjualan</label>
+                            <input type="number" id="adminStoreSales" min="0" placeholder="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Rating</label>
+                            <input type="number" id="adminStoreRating" min="1" max="5" step="0.1" placeholder="4.7" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id="adminStoreStatus">
+                                <option value="Aktif">Aktif</option>
+                                <option value="Nonaktif">Nonaktif</option>
+                                <option value="Menunggu Verifikasi">Menunggu Verifikasi</option>
+                            </select>
+                        </div>
+                        <div class="admin-form-actions">
+                            <button class="btn-primary" type="submit" id="adminStoreSubmit">Simpan Toko</button>
+                            <button class="btn-outline" type="button" onclick="resetAdminStoreForm()">Reset</button>
+                        </div>
+                    </form>
+
+                    <div class="admin-table" id="adminStores"></div>
+                </div>
+            </section>
+
+            <section id="admin-section-users" class="admin-section" style="display:none">
+                <div class="admin-panel">
+                    <div class="admin-section-title">
+                        <div>
+                            <h3>Kelola Pengguna</h3>
+                            <p>Tambah akun, ubah role, aktif/nonaktifkan, atau hapus pengguna.</p>
+                        </div>
+                    </div>
+
+                    <form class="admin-form" onsubmit="saveAdminUser(event)">
+                        <input type="hidden" id="adminUserId">
+                        <div class="form-group">
+                            <label>Nama Pengguna</label>
+                            <input type="text" id="adminUserName" placeholder="Nama pengguna" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="adminUserEmail" placeholder="user@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Role</label>
+                            <select id="adminUserRole" onchange="syncAdminUserStoreField()">
+                                <option value="buyer">Pembeli</option>
+                                <option value="merchant">Penjual</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Toko / Catatan</label>
+                            <input type="text" id="adminUserStore" placeholder="Isi kalau role penjual">
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id="adminUserStatus">
+                                <option value="Aktif">Aktif</option>
+                                <option value="Nonaktif">Nonaktif</option>
+                                <option value="Diblokir">Diblokir</option>
+                            </select>
+                        </div>
+                        <div class="admin-form-actions">
+                            <button class="btn-primary" type="submit" id="adminUserSubmit">Simpan Pengguna</button>
+                            <button class="btn-outline" type="button" onclick="resetAdminUserForm()">Reset</button>
+                        </div>
+                    </form>
+
+                    <div class="admin-table" id="adminUsers"></div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- ORDER SUCCESS PAGE -->
+    <div id="page-success" class="page">
+        <div class="success-wrap">
+            <div class="success-card">
+                <div class="success-icon">✓</div>
+                <h2>Pesanan Berhasil!</h2>
+                <p>Terima kasih telah berbelanja di STILÉ. Pesananmu sedang diproses oleh penjual.</p>
+                <p id="successOrderId" style="font-size:13px;color:#999;margin:8px 0"></p>
+                <div class="success-btns">
+                    <button class="btn-primary" onclick="showPage('orders')">Lihat Pesanan</button>
+                    <button class="btn-outline" onclick="showPage('home')">Lanjut Belanja</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RATING MODAL -->
+    <div id="ratingModal" class="modal-overlay" style="display:none">
+        <div class="modal-card">
+            <h3>Beri Rating Produk</h3>
+            <p id="ratingProductName" style="font-weight:500;margin:8px 0"></p>
+            <div class="star-row" id="starRow">
+                <span class="star" data-v="1" onclick="setRating(1)">★</span>
+                <span class="star" data-v="2" onclick="setRating(2)">★</span>
+                <span class="star" data-v="3" onclick="setRating(3)">★</span>
+                <span class="star" data-v="4" onclick="setRating(4)">★</span>
+                <span class="star" data-v="5" onclick="setRating(5)">★</span>
+            </div>
+            <textarea id="ratingReview" placeholder="Tulis ulasan kamu..." rows="3" style="width:100%;margin-top:12px"></textarea>
+            <div class="modal-btns">
+                <button class="btn-outline" onclick="closeModal()">Batal</button>
+                <button class="btn-primary" onclick="submitRating()">Kirim</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD PRODUCT MODAL -->
+    <div id="addProductModal" class="modal-overlay" style="display:none">
+        <div class="modal-card">
+            <h3>Tambah Produk Baru</h3>
+            <div class="form-group">
+                <label>Nama Produk</label>
+                <input type="text" id="newProdName" placeholder="Nama produk...">
+            </div>
+            <div class="form-group">
+                <label>Sub Kategori</label>
+                <select id="newProdCat">
+        <option value="Pakaian">Pakaian</option>
+        <option value="Baju Muslim">Baju Muslim</option>
+        <option value="Sepatu">Sepatu</option>
+        <option value="Tas">Tas</option>
+        <option value="Sports">Sports</option>
+        <option value="Beauty">Beauty</option>
+        <option value="Kids">Kids</option>
+        <option value="Batik">Batik</option>
+        <option value="Jam dan Aksesoris">Aksesoris</option>
+      </select>
+            </div>
+            <div class="form-group">
+                <label>Harga (Rp)</label>
+                <input type="number" id="newProdPrice" placeholder="75000">
+            </div>
+            <div class="form-group">
+                <label>Stok</label>
+                <input type="number" id="newProdStock" placeholder="50">
+            </div>
+            <div class="modal-btns">
+                <button class="btn-outline" onclick="closeModal()">Batal</button>
+                <button class="btn-primary" onclick="addProduct()">Tambahkan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-col">
+                <div class="brand" style="margin-bottom:12px">STILÉ</div>
+                <p>Platform e-commerce fashion UMKM lokal terpercaya di Indonesia.</p>
+                <p style="margin-top:8px;font-size:12px;color:#aaa">Proyek Rekayasa Perangkat Lunak – UTY 2026</p>
+            </div>
+            <div class="footer-col">
+                <h4>Informasi</h4>
+                <a href="#">Tentang Kami</a>
+                <a href="#">Cara Belanja</a>
+                <a href="#">Kebijakan Privasi</a>
+                <a href="#">Syarat & Ketentuan</a>
+            </div>
+            <div class="footer-col">
+                <h4>Bantuan</h4>
+                <a href="#">Pusat Bantuan</a>
+                <a href="#">Pengembalian Barang</a>
+                <a href="#">Lacak Pesanan</a>
+                <a href="#">Hubungi Kami</a>
+            </div>
+            <div class="footer-col">
+                <h4>Daftar sebagai Penjual</h4>
+                <p>Bergabunglah dengan 200+ UMKM fashion yang telah berjualan di STILÉ.</p>
+                <button class="btn-outline" style="margin-top:8px" onclick="showPage('register')">Daftar Sekarang</button>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 STILÉ. Dibuat dengan ♥ untuk UMKM Indonesia.</p>
+        </div>
+    </footer>
+
+    <div id="page-sellerDashboard" class="page">
+
+        <div class="seller-wrapper">
+
+            <aside class="seller-sidebar">
+                <h2>STILÉ</h2>
+
+                <ul>
+                    <li class="active" data-section="dashboard" onclick="showSellerSection('dashboard')">Dashboard</li>
+                    <li data-section="orders" onclick="showSellerSection('orders')">Pesanan</li>
+                    <li data-section="products" onclick="showSellerSection('products')">Tambah Produk</li>
+                    <li data-section="reviews" onclick="showSellerSection('reviews')">Rating & Ulasan</li>
+                </ul>
+            </aside>
+
+            <main class="seller-content">
+
+                <div id="seller-dashboard">
+                    <h2>Dashboard Toko</h2>
+
+                    <div class="seller-cards">
+
+                        <div class="seller-card">
+                            <h3>Total Pesanan</h3>
+                            <span id="sellerTotalOrders">0</span>
+                        </div>
+
+                        <div class="seller-card">
+                            <h3>Total Pendapatan</h3>
+                            <span id="sellerRevenue">Rp 0</span>
+                        </div>
+
+                        <div class="seller-card">
+                            <h3>Produk Aktif</h3>
+                            <span id="sellerActiveProducts">0</span>
+                        </div>
+
+                        <div class="seller-card">
+                            <h3>Rating Toko</h3>
+                            <span id="sellerAvgRating">0.0</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="seller-orders" style="display:none">
+                    <div class="seller-section-head">
+                        <div>
+                            <h2>Manajemen Pesanan</h2>
+                            <p>Ubah status pesanan pelanggan langsung dari dashboard penjual.</p>
+                        </div>
+                        <select id="sellerOrderFilter" onchange="renderSellerOrders()">
+                            <option value="all">Semua Status</option>
+                            <option value="Menunggu Konfirmasi">Menunggu Konfirmasi</option>
+                            <option value="Dikemas">Dikemas</option>
+                            <option value="Dikirim">Dikirim</option>
+                            <option value="Selesai">Selesai</option>
+                            <option value="Dibatalkan">Dibatalkan</option>
+                        </select>
+                    </div>
+                    <div id="sellerOrderList" class="seller-panel-list"></div>
+                </div>
+
+                <div id="seller-products" style="display:none">
+                    <div class="seller-section-head">
+                        <div>
+                            <h2>Tambah / Edit Produk</h2>
+                            <p>Isi form untuk menambahkan produk baru. Klik tombol edit di daftar produk untuk mengubah data.</p>
+                        </div>
+                    </div>
+
+                    <form class="seller-product-form" onsubmit="saveSellerProduct(event)">
+                        <input type="hidden" id="sellerProdId">
+                        <div class="form-group">
+                            <label>Nama Produk</label>
+                            <input type="text" id="sellerProdName" placeholder="Contoh: Kemeja Linen Oversize" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Kategori</label>
+                            <select id="sellerProdCat">
+                                <option value="Pakaian">Pakaian</option>
+                                <option value="Baju Muslim">Baju Muslim</option>
+                                <option value="Sepatu">Sepatu</option>
+                                <option value="Tas">Tas</option>
+                                <option value="Sports">Sports</option>
+                                <option value="Beauty">Beauty</option>
+                                <option value="Kids">Anak</option>
+                                <option value="Jam dan Aksesoris">Aksesoris</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Detail Kategori</label>
+                            <input type="text" id="sellerProdDetail" placeholder="Contoh: Atasan Wanita">
+                        </div>
+                        <div class="form-group">
+                            <label>Harga</label>
+                            <input type="number" id="sellerProdPrice" placeholder="89000" min="1000" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Stok</label>
+                            <input type="number" id="sellerProdStock" placeholder="25" min="0" required>
+                        </div>
+                        <div class="seller-form-actions">
+                            <button class="btn-primary" type="submit" id="sellerProdSubmit">Simpan Produk</button>
+                            <button class="btn-outline" type="button" onclick="resetSellerProductForm()">Reset</button>
+                        </div>
+                    </form>
+
+                    <div class="seller-section-head small-gap">
+                        <div>
+                            <h3>Daftar Produk Toko</h3>
+                            <p>Produk di bawah bisa diedit, dinonaktifkan, atau dihapus.</p>
+                        </div>
+                    </div>
+                    <div id="sellerProductList" class="seller-panel-list"></div>
+                </div>
+
+                <div id="seller-reviews" style="display:none">
+                    <div class="seller-section-head">
+                        <div>
+                            <h2>Rating & Ulasan</h2>
+                            <p>Balas ulasan pelanggan, ubah status tampil/sembunyi, atau hapus ulasan dummy untuk kebutuhan demo.</p>
+                        </div>
+                        <select id="sellerReviewFilter" onchange="renderSellerReviews()">
+                            <option value="all">Semua Rating</option>
+                            <option value="5">5 Bintang</option>
+                            <option value="4">4 Bintang</option>
+                            <option value="3">3 Bintang ke bawah</option>
+                        </select>
+                    </div>
+                    <div id="sellerReviewStats" class="review-summary-grid"></div>
+                    <div id="sellerReviewList" class="seller-panel-list"></div>
+                </div>
+
+            </main>
+
+        </div>
+
+    </div>
+
+    <script src="data.js?v=payment-qr-1"></script>
+    <script src="app.js?v=payment-qr-1"></script>
+</body>
+
+</html>
